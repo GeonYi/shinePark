@@ -1,0 +1,9 @@
+
+### intellj
+
+*.iml
+.idea
+
+### gradle
+.gradle
+build

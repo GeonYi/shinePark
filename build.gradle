@@ -1,0 +1,39 @@
+group 'geon'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'scala'
+
+repositories {
+    // not in firewell env, remove this line
+    maven  {
+        url "http://repo1.maven.org/maven2"
+    }
+    mavenCentral()
+    mavenLocal()
+}
+
+ScalaCompileOptions.metaClass.daemonServer = true
+ScalaCompileOptions.metaClass.fork = true
+ScalaCompileOptions.metaClass.useAnt = false
+ScalaCompileOptions.metaClass.useCompileDaemon = false
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile 'org.apache.spark:spark-core_2.11:1.6.2'
+    compile 'org.apache.spark:spark-sql_2.11:1.6.2' // for dataframe
+    compile 'commons-configuration:commons-configuration:1.9'
+    compile 'org.apache.commons:commons-math3:3.5'
+}
+
+sourceSets {
+    main {
+        scala {
+            srcDirs = ['src/scala']
+        }
+    }
+    test {
+        scala {
+            srcDirs = ['test/scala']
+        }
+    }
+}
