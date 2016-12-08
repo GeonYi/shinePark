@@ -1,0 +1,8 @@
+name : [MultiPlus]
+type : [single]
+desc : [sum three values]
+param : [a{double}:first number,b{double}:second number,c{double}:third number]
+script :
+[
+    plus($a, plus($b,$c))
+]

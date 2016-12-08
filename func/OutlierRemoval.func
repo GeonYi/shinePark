@@ -1,0 +1,21 @@
+name : [OutlierTukeyRemoval]
+type : [multi]
+desc : [remove outlier]
+param : [multiValue{double}:multiplier,target{double}:target value]
+script : [
+    outer = {
+        double q1  = 1
+        double q3  = 3
+        double iqr = minus($q3,$q1)
+    }
+
+    inner = {
+        if($multiValue < 0 || $target == NaN)
+            => # = NaN
+        else if($target < minus($q1,multiple($multiValue,$iqr)) || $target > plus($q3,multiple($multiValue,$iqr)))
+            => # = NaN
+        else
+            => # = $target
+        endif
+    }
+]
