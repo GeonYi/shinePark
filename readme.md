@@ -22,11 +22,12 @@
 ---
 
 ### index
-01. [development env](####development-env)
-02. [basic](####basic)
-03. [variable](####variable)
-04. [function](####function)
-05. [user](####user)
+01. development env
+02. basic
+03. variable
+04. function
+05. script function
+06. user
 
 ___
 
@@ -348,7 +349,113 @@ Row와 Dataframe은 spark의 타입 형태로 일반적인 방법으로 사용�
      +--------+--------+
 
 
-#### 05. user
+#### 05. script function
+
+script function은 사용자가 작성한 스크립트가 함수로써 동작한다.
+
+파일에서 로딩하는 형태로 엔진에 올릴 수 있다.
+
+script file은 반드시 정해진 포멧에 따라 작성 해야 한다.
+
+**script example**
+
+    name : [MultiPlus]
+    type : [single]
+    desc : [sum three values]
+    param : [a{double}:first number,b{double}:second number,c{double}:third number]
+    script :
+    [
+        plus($a, plus($b,$c))
+    ]
+
+**script description**
+
+    name :  함수명
+    type :  single  -> 단일row로 표현할 수 있는 형태의 함수
+            multi   -> 복수의 row로 이루어진 형태의 함수
+    param:
+        - <variable name>{<variable type>}:variable description
+        - comma(,)구분자
+    script:
+        - 함수 수행을 위한 script
+        - param에서 정의한 파라미터를 이용하여 동작한다
+        - base function과 script script 등을 이용하여 작성한다.
+
+**use example :**
+
+    >>load(func, C:\Development\project\shinePark\func\MultiPlus.func)
+    [system print] : C:\Development\project\shinePark\func\MultiPlus.func script load success
+    >>list(func)
+    name : minus
+    name : remainder
+    name : plus
+    name : multiple
+    name : MultiPlus
+    [system print] : ()
+    >>info(MultiPlus)
+    ==============================================================================
+    FUNCTION INFORMATION
+    ==============================================================================
+    name      : [MultiPlus]
+    by        : [script]
+    type      : [single]
+    desc      : [sum three values]
+    preScript : [
+
+    ]
+    script    : [
+        plus($a, plus($b,$c))
+    ]
+    ==============================================================================
+    parameter(s) info
+    ------------------------------------------------------------------------------
+      param name          : [a]
+      param desc          : [first number]
+      param allow type    : [Double]
+      param default value : [null]
+    ------------------------------------------------------------------------------
+      param name          : [b]
+      param desc          : [second number]
+      param allow type    : [Double]
+      param default value : [null]
+    ------------------------------------------------------------------------------
+      param name          : [c]
+      param desc          : [third number]
+      param allow type    : [Double]
+      param default value : [null]
+    ------------------------------------------------------------------------------
+    ==============================================================================
+    [system print] : ()
+    >>int mulTmp = MultiPlus(1,2,3)
+    >>$mulTmp
+    [system print] : [(Integer,6)]
+    >>
+
+---
+
+## development review
+
+   이 프로그램을 만든 시점이 2015년 8월 이었다.
+ 정확히 scala, spark등을 사용한지 8개월이 지난 시점이었다.
+ 코드를 github에 올리기위해 리팩토링을 하다보니 정말 부끄러운 코드다.
+ 그럼에도 후기까지 남긴 이유인즉 많이 의미 있는 프로그램이기 때문이다.
+
+ 사실 프로젝트 이름도 여자친구 이름이다.
+ 이 프로그램을 만드는 중 이별을 했고, 그래서 개발 중간에 멈춰버린
+ 프로젝트다.  그래서 개발하고자 했던 수 많은 기능을 거의 개발하지 못하였다.
+
+ 그러다가 다시 여자 친구를 만나게 되었고, 그렇게 해서  공개하게 된 프로젝트이다.
+
+ 다시 추가적으로 많은 기능을 만들고 싶긴 하지만 안타깝게도
+ 지금은 다른프로젝트를 수행 중이기에 더 이상의 개발을 하고 있지는 않다.
+
+
+   > 먼 훗날 지금을 되돌아 보면 후회하지 않기를 오늘도 기원한다.
+
+
+ 혹시나 그 누구라도 사용해보고 추가 요청이 있으면 메일 보내 주세요.
+ 시간이 허락하는 범위에서 추가해 드리겠습니다
+  :yigeon84@gmail.com
 
 
 
